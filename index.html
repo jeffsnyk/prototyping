@@ -122,7 +122,7 @@
                                 <span class="text-xs font-medium text-gray-300">MCP Tools</span>
                             </div>
                             <div id="secure-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
+                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer opacity-40">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="text-gray-300">
@@ -133,7 +133,7 @@
                                     Inception</span>
                             </div>
                             <div id="custom-rules-container"
-                                class="flex flex-col items-center space-y-1 p-2 text-center">
+                                class="flex flex-col items-center space-y-1 p-2 text-center opacity-40 pointer-events-none">
                                 <div class="flex items-center bg-custom-dark p-1 rounded-md text-xs">
                                     <span class="px-2 py-0.5 rounded-md">Manual</span>
                                     <span class="px-2 py-0.5 rounded-md">Automatic</span>
@@ -421,13 +421,13 @@
 
         secureToggle.addEventListener('click', () => {
             // Toggling this class on the button itself gives a visual cue
-            const isNowDisabled = secureToggle.classList.toggle('opacity-40');
+            const isNowActive = !secureToggle.classList.toggle('opacity-40');
 
             // Now, enable or disable the rules container based on the toggle's new state
-            if (isNowDisabled) {
-                customRulesContainer.classList.add('opacity-40', 'pointer-events-none');
-            } else {
+            if (isNowActive) {
                 customRulesContainer.classList.remove('opacity-40', 'pointer-events-none');
+            } else {
+                customRulesContainer.classList.add('opacity-40', 'pointer-events-none');
             }
         });
     </script>
