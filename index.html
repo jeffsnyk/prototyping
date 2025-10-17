@@ -52,8 +52,8 @@
         <header class="p-2 border-b border-custom-line flex justify-between items-center">
             <span class="text-sm font-bold text-white pl-2">SNYK</span>
             <div class="flex items-center space-x-4 pr-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                <svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="text-gray-400 hover:text-white cursor-pointer">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
@@ -62,21 +62,20 @@
                     class="text-gray-400 hover:text-white cursor-pointer">
                     <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     <path
-                        d="M10.47 4.32c.602-1.306 2.458-1.306 3.06 0l.218.473a1.684 1.684 0 0 0 2.112.875l.49-.18c1.348-.498 2.66.814 2.162 2.163l-.18.489a1.684 1.684 0 0 0 .875 2.112l.474.218c1.305.602 1.305 2.458 0 3.06l-.474.218a1.684 1.684 0 0 0-.875 2.112l.18.49c.498 1.348-.814 2.66-2.163 2.162l-.489-.18a1.684 1.684 0 0 0-2.112.875l-.218.473c-.602 1.306-2.458 1.306-3.06 0l-.218-.473a1.684 1.684 0 0 0-2.112-.875l-.49.18c-1.348.498-2.66-.814-2.163-2.163l.181-.489a1.684 1.684 0 0 0-.875-2.112l-.474-.218c-1.305-.602-1.305-2.458 0-3.06l.474-.218a1.684 1.684 0 0 0 .875-2.112l-.18-.49c-.498-1.348.814-2.66 2.163-2.163l.489.181a1.684 1.684 0 0 0 2.112-.875l.218-.474Z" />
+                        d="M10.47 4.32c.602-1.306 2.458-1.306 3.06 0l.218.473a1.684 1.684 0 0 0 2.112.875l.49-.18c1.348-.498 2.66.814 2.162 2.163l-.18.489a1.684 1.684 0 0 0 .875 2.112l.474.218c1.305.602 1.305 2.458 0 3.06l-.474.218a1.684 1.684 0 0 0-.875 2.112l.18.49c.498 1.348-.814 2.66-2.163 2.162l-.489-.18a1.684 1.684 0 0 0-2.112.875l-.218.473c-.602 1.306-2.458 1.306-3.06 0l-.218-.473a1.684 1.684 0 0 0-2.112-.875l-.49.18c-1.348-.498-2.66-.814-2.163-2.163l.181-.489a1.684 1.684 0 0 0-.875-2.112l-.474-.218c-1.305-.602-1.305-2.458 0-3.06l.474-.218a1.684 1.684 0 0 0 .875-2.112l-.18-.49c-.498-1.348.814-2.66 2.163-2.163l.489.181a1.684 1.684 0 0 0 2.112-.875l.218-.474Z" />
                 </svg>
             </div>
         </header>
 
         <!-- Main Content Area -->
         <div class="flex-grow overflow-y-auto">
-            <!-- Workflow Configuration Section -->
+            <!-- Configuration Options Section -->
             <section class="py-3 px-4 border-b border-custom-line">
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Workflow Configuration</h2>
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Configuration Options</h2>
 
                 <div class="grid grid-cols-2 items-start justify-around gap-8">
                     <!-- IDE Group -->
                     <div class="flex flex-col items-center">
-                        <h3 class="text-xs font-bold text-gray-300 mb-2">IDE</h3>
                         <div class="flex justify-between w-full px-2">
                             <div id="new-issues-toggle"
                                 class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer opacity-40">
@@ -88,10 +87,11 @@
                                 </svg>
                                 <span class="text-xs font-medium">New Issues</span>
                             </div>
-                            <div class="flex flex-col items-center space-y-1 p-2 text-center">
+                            <div id="auto-org-toggle"
+                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-gray-300">
+                                    stroke-linejoin="round">
                                     <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
                                     <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
                                     <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
@@ -100,58 +100,61 @@
                                     <path d="M10 14h4" />
                                     <path d="M10 18h4" />
                                 </svg>
-                                <span class="text-xs font-medium text-gray-300">Auto Org</span>
+                                <span class="text-xs font-medium">Auto Org</span>
                             </div>
-                            <div class="flex flex-col items-center space-y-1 p-2 opacity-40 text-center">
+                            <div id="auto-scan-toggle"
+                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-gray-500">
+                                    stroke-linejoin="round">
                                     <circle cx="11" cy="11" r="8" />
                                     <path d="m21 21-4.3-4.3" />
                                 </svg>
-                                <span class="text-xs font-medium text-gray-500">Auto Scan</span>
+                                <span class="text-xs font-medium">Auto Scan</span>
                             </div>
-                            <div class="flex flex-col items-center space-y-1 p-2 opacity-40 text-center">
+                            <div id="commit-hooks-toggle"
+                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-gray-500">
+                                    stroke-linejoin="round">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                 </svg>
-                                <span class="text-xs font-medium text-gray-500">Commit Hooks</span>
+                                <span class="text-xs font-medium">Commit Hooks</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Agent Group -->
                     <div class="flex flex-col items-center border-l border-custom-line pl-8">
-                        <h3 class="text-xs font-bold text-gray-300 mb-2">AGENT</h3>
                         <div class="flex items-start justify-between w-full px-2">
-                            <div class="flex flex-col items-center space-y-1 p-2 text-center">
+                            <div id="mcp-tools-toggle"
+                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-gray-300">
+                                    stroke-linejoin="round">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                 </svg>
-                                <span class="text-xs font-medium text-gray-300">MCP Tools</span>
+                                <span class="text-xs font-medium">MCP Tools</span>
                             </div>
                             <div id="secure-toggle"
                                 class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer opacity-40">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-gray-300">
+                                    stroke-linejoin="round">
                                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                 </svg>
-                                <span class="text-xs font-medium text-gray-300 whitespace-nowrap">Secure At
-                                    Inception</span>
+                                <span class="text-xs font-medium whitespace-nowrap">Secure At Inception</span>
                             </div>
                             <div id="custom-rules-container"
                                 class="flex flex-col items-center space-y-1 p-2 text-center opacity-40 pointer-events-none">
                                 <div class="flex items-center bg-custom-dark p-1 rounded-md text-xs">
-                                    <span class="px-2 py-0.5 rounded-md">Manual</span>
-                                    <span class="px-2 py-0.5 rounded-md">Automatic</span>
-                                    <span class="px-2 py-0.5 rounded-md bg-gray-600 text-white">Always</span>
+                                    <span id="rule-manual" class="px-2 py-0.5 rounded-md cursor-pointer">Manual</span>
+                                    <span id="rule-automatic"
+                                        class="px-2 py-0.5 rounded-md cursor-pointer">Automatic</span>
+                                    <span id="rule-always"
+                                        class="px-2 py-0.5 rounded-md bg-gray-600 text-white cursor-pointer">Always</span>
                                 </div>
                                 <span class="text-xs font-medium text-gray-400 mt-2">Apply Custom Rules</span>
                             </div>
@@ -175,24 +178,24 @@
 
                     <div class="flex items-center gap-4 text-xs text-gray-300">
                         <div class="flex items-center">
-                            <input id="reachable" type="checkbox"
+                            <input id="reachable-filter" type="checkbox"
                                 class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-gray-500 focus:ring-gray-600">
-                            <label for="reachable" class="ml-2">Reachable</label>
+                            <label for="reachable-filter" class="ml-2">Reachable</label>
                         </div>
                         <div class="flex items-center">
-                            <input id="autofixable" type="checkbox"
+                            <input id="autofixable-filter" type="checkbox"
                                 class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-gray-500 focus:ring-gray-600">
-                            <label for="autofixable" class="ml-2">Autofixable</label>
+                            <label for="autofixable-filter" class="ml-2">Autofixable</label>
                         </div>
                         <div class="flex items-center">
-                            <input id="ignored" type="checkbox"
+                            <input id="ignored-filter" type="checkbox"
                                 class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-gray-500 focus:ring-gray-600">
-                            <label for="ignored" class="ml-2">Ignored</label>
+                            <label for="ignored-filter" class="ml-2">Ignored</label>
                         </div>
                         <div class="flex items-center">
-                            <input type="number" value="800"
+                            <input type="number" id="risk-score-filter" value="800"
                                 class="w-16 bg-gray-700 border-gray-600 rounded-md p-1 text-xs text-center">
-                            <label class="ml-2">Risk Score</label>
+                            <label for="risk-score-filter" class="ml-2">Risk Score</label>
                         </div>
                     </div>
                 </div>
@@ -210,7 +213,7 @@
                             <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <div
-                            class="tooltip absolute bottom-full mb-2 w-64 bg-black text-white text-xs rounded py-2 px-3 right-0 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
+                            class="tooltip absolute bottom-full mb-2 w-64 bg-black text-white text-xs rounded py-2 px-3 right-0 transform transition-all duration-200 invisible opacity-0 -translate-y-2 font-normal normal-case">
                             Snyk Risk Score is a single value assigned to an issue, applied by automatic risk analysis
                             for all vulnerability-type issues. Risk Score is based on the potential impact and
                             likelihood of exploitability.
@@ -276,7 +279,9 @@
                                 →</a></p>
                     </div>
                     <!-- Notification Item -->
-                    <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                    <div id="mcp-server-notification"
+                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                        style="display: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="text-gray-400 mt-0.5 flex-shrink-0">
@@ -288,7 +293,38 @@
                             has now been configured for <span class="font-semibold text-white">Copilot</span></p>
                     </div>
                     <!-- Notification Item -->
-                    <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                    <div id="secure-inception-notification"
+                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                        style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-gray-400 mt-0.5 flex-shrink-0">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <p class="text-sm text-gray-300"><span class="font-semibold text-white">Secure at
+                                Inception</span> rules have been added for <span
+                                class="font-semibold text-white">Copilot</span>. <a href="#"
+                                class="text-indigo-400 font-semibold hover:underline ml-2">Learn More →</a></p>
+                    </div>
+                    <!-- Notification Item -->
+                    <div id="custom-rules-notification"
+                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                        style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-gray-400 mt-0.5 flex-shrink-0">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <p id="custom-rules-notification-text" class="text-sm text-gray-300"></p>
+                        <a href="#" class="text-indigo-400 font-semibold hover:underline ml-2">Learn More →</a>
+                    </div>
+                    <!-- Notification Item -->
+                    <div id="commit-hooks-notification"
+                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="text-yellow-500 mt-0.5 flex-shrink-0">
@@ -309,14 +345,27 @@
         <footer class="p-4 border-t border-custom-line bg-custom-darker">
             <div class="flex items-center justify-between text-xs text-gray-300">
                 <div class="flex items-center gap-6">
-                    <div class="flex items-center">
-                        <span class="text-gray-400 mr-2">Org</span>
-                        <div class="flex items-center bg-custom-dark rounded-md px-3 py-1">
-                            <span class="font-semibold">Snyk Demo Org</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="ml-2 text-gray-400">
+                    <div class="relative">
+                        <div id="org-dropdown-container" class="flex items-center bg-custom-dark rounded-md px-3 py-1">
+                            <span id="org-auto-text" class="font-semibold">Automatic Selection</span>
+                            <select id="org-select"
+                                class="bg-custom-dark border-0 text-white font-semibold hidden focus:ring-0 appearance-none">
+                                <option>ACME Enterprises</option>
+                                <option>Financial Bank Inc</option>
+                                <option>Software Factory Ltd</option>
+                            </select>
+                            <svg id="org-dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="ml-2 text-gray-400">
                                 <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                        <div id="org-tooltip"
+                            class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-2 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
+                            Last used: ACME Enterprises
+                            <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
+                                viewBox="0 0 255 255" xml:space="preserve">
+                                <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
                             </svg>
                         </div>
                     </div>
@@ -336,29 +385,63 @@
             // --- DATA ---
             const allFindings = [
                 { id: 1, title: 'Hardcoded Non-Cryptographic Secret', severity: 'High', type: 'Code', risk: 895, file: 'server/routes.js:23', isNew: false, isAutofixable: false, isReachable: false, isIgnored: false },
-                { id: 2, title: 'SQL Injection', severity: 'High', type: 'Code', risk: 880, file: 'db/queries.js:112', isNew: true, isAutofixable: true, isReachable: true, isIgnored: false },
-                { id: 3, title: 'Cross-site Scripting (XSS)', severity: 'High', type: 'Code', risk: 872, file: 'views/login.ejs:12', isNew: true, isAutofixable: true, isReachable: true, isIgnored: false },
+                { id: 2, title: 'SQL Injection', severity: 'High', type: 'Code', risk: 880, file: 'db/queries.js:112', isNew: true, isAutofixable: true, isReachable: false, isIgnored: false },
+                { id: 3, title: 'Cross-site Scripting (XSS)', severity: 'High', type: 'Code', risk: 872, file: 'views/login.ejs:12', isNew: true, isAutofixable: true, isReachable: false, isIgnored: false },
                 { id: 4, title: 'Regular Expression Denial of Service', severity: 'High', type: 'Open Source', risk: 860, file: 'lodash@4.17.20', isNew: false, isAutofixable: false, isReachable: false, isIgnored: true },
                 { id: 5, title: 'Path Traversal', severity: 'Medium', type: 'Code', risk: 830, file: 'utils/filehandler.js:45', isNew: false, isAutofixable: false, isReachable: false, isIgnored: false },
-                { id: 6, title: 'Prototype Pollution', severity: 'Medium', type: 'Open Source', risk: 815, file: 'minimist@1.2.5', isNew: false, isAutofixable: false, isReachable: true, isIgnored: true },
-                { id: 7, title: 'Prototype Pollution', severity: 'Medium', type: 'Open Source', risk: 805, file: 'yargs-parser@13.1.2', isNew: true, isAutofixable: false, isReachable: true, isIgnored: false },
+                { id: 6, title: 'Prototype Pollution', severity: 'Medium', type: 'Open Source', risk: 815, file: 'minimist@1.2.5', isNew: false, isAutofixable: false, isReachable: false, isIgnored: true },
+                { id: 7, title: 'Prototype Pollution', severity: 'Medium', type: 'Open Source', risk: 805, file: 'yargs-parser@13.1.2', isNew: true, isAutofixable: false, isReachable: false, isIgnored: false },
             ];
 
             // --- STATE ---
             const state = {
-                groupBy: 'severity', // 'severity' or 'scan-type'
-                showNewOnly: false
+                groupBy: 'severity',
+                showNewOnly: false,
+                autoOrg: true,
+                autoScan: true,
+                commitHooks: true,
+                mcpTools: true,
+                secureAtInception: false,
+                filters: {
+                    reachable: false,
+                    autofixable: false,
+                    ignored: false,
+                    riskScore: 800
+                }
             };
 
             // --- DOM ELEMENTS ---
             const newIssuesToggle = document.getElementById('new-issues-toggle');
+            const autoOrgToggle = document.getElementById('auto-org-toggle');
+            const autoScanToggle = document.getElementById('auto-scan-toggle');
+            const commitHooksToggle = document.getElementById('commit-hooks-toggle');
+            const mcpToolsToggle = document.getElementById('mcp-tools-toggle');
             const secureToggle = document.getElementById('secure-toggle');
             const customRulesContainer = document.getElementById('custom-rules-container');
+            const ruleManual = document.getElementById('rule-manual');
+            const ruleAutomatic = document.getElementById('rule-automatic');
+            const ruleAlways = document.getElementById('rule-always');
             const severityToggle = document.getElementById('severity-toggle');
             const scanTypeToggle = document.getElementById('scan-type-toggle');
             const severityView = document.getElementById('severity-view');
             const scanTypeView = document.getElementById('scan-type-view');
+            const findingsContainer = document.getElementById('findings-container');
             const groupByHeader = document.getElementById('group-by-header');
+            const orgDropdownContainer = document.getElementById('org-dropdown-container').parentElement; // Get the tooltip wrapper
+            const orgAutoText = document.getElementById('org-auto-text');
+            const orgSelect = document.getElementById('org-select');
+            const orgDropdownArrow = document.getElementById('org-dropdown-arrow');
+            const commitHooksNotification = document.getElementById('commit-hooks-notification');
+            const mcpServerNotification = document.getElementById('mcp-server-notification');
+            const secureInceptionNotification = document.getElementById('secure-inception-notification');
+            const customRulesNotification = document.getElementById('custom-rules-notification');
+            const customRulesNotificationText = document.getElementById('custom-rules-notification-text');
+            const reachableFilter = document.getElementById('reachable-filter');
+            const autofixableFilter = document.getElementById('autofixable-filter');
+            const ignoredFilter = document.getElementById('ignored-filter');
+            const riskScoreFilter = document.getElementById('risk-score-filter');
+            const playButton = document.getElementById('play-button');
+
 
             // --- RENDER FUNCTIONS ---
 
@@ -384,7 +467,7 @@
                 } else { // scan-type
                     subtitle = `${finding.file} <span class="text-gray-500 mx-1">•</span> <span class="${getSeverityClass(finding.severity)} font-medium">${finding.severity}</span>`;
                 }
-                if (finding.isReachable && state.groupBy === 'severity') subtitle += ` <span class="text-gray-500 mx-1">•</span> Reachable`;
+                if (finding.isReachable) subtitle += ` <span class="text-gray-500 mx-1">•</span> Reachable`;
                 if (finding.isIgnored) subtitle += ` <span class="text-gray-500 mx-1">•</span> Ignored`;
 
 
@@ -406,36 +489,47 @@
                 `;
             };
 
-            const render = () => {
-                // 1. Filter data based on state
-                const findingsToShow = state.showNewOnly
-                    ? allFindings.filter(f => f.isNew)
-                    : allFindings;
+            const renderFindings = () => {
+                let findingsToShow = allFindings;
 
-                // 2. Group data
+                if (state.showNewOnly) {
+                    findingsToShow = findingsToShow.filter(f => f.isNew);
+                }
+                if (state.filters.reachable) {
+                    findingsToShow = findingsToShow.filter(f => f.isReachable);
+                }
+                if (state.filters.autofixable) {
+                    findingsToShow = findingsToShow.filter(f => f.isAutofixable);
+                }
+                if (state.filters.ignored) {
+                    findingsToShow = findingsToShow.filter(f => f.isIgnored);
+                }
+                if (state.filters.riskScore) {
+                    findingsToShow = findingsToShow.filter(f => f.risk >= state.filters.riskScore);
+                }
+
+                const renderView = (view, groupedData, createGroupHtml) => {
+                    if (Object.keys(groupedData).length === 0) {
+                        view.innerHTML = `<div class="text-center text-gray-500 py-8">All security findings are currently filtered out of the result.</div>`;
+                    } else {
+                        view.innerHTML = Object.entries(groupedData).map(createGroupHtml).join('');
+                    }
+                };
+
                 if (state.groupBy === 'severity') {
-                    const groupedBySeverity = findingsToShow.reduce((acc, finding) => {
-                        (acc[finding.severity] = acc[finding.severity] || []).push(finding);
-                        return acc;
-                    }, {});
-
-                    severityView.innerHTML = Object.entries(groupedBySeverity).map(([severity, items]) => `
+                    const grouped = findingsToShow.reduce((acc, f) => { (acc[f.severity] = acc[f.severity] || []).push(f); return acc; }, {});
+                    renderView(severityView, grouped, ([severity, items]) => `
                         <div>
                             <div class="flex items-center py-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 mr-2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                <h3 class="font-semibold ${getSeverityClass(severity)} text-sm">${severity} (${items.length})</h3>
+                                <h3 class="font-semibold text-gray-300 text-sm">${severity} <span class="text-gray-400 font-medium">(${items.length})</span></h3>
                             </div>
                             <div class="space-y-0">${items.map(createFindingHtml).join('')}</div>
                         </div>
-                    `).join('');
-
-                } else { // scan-type
-                    const groupedByType = findingsToShow.reduce((acc, finding) => {
-                        (acc[finding.type] = acc[finding.type] || []).push(finding);
-                        return acc;
-                    }, {});
-
-                    scanTypeView.innerHTML = Object.entries(groupedByType).map(([type, items]) => `
+                    `);
+                } else {
+                    const grouped = findingsToShow.reduce((acc, f) => { (acc[f.type] = acc[f.type] || []).push(f); return acc; }, {});
+                    renderView(scanTypeView, grouped, ([type, items]) => `
                         <div>
                              <div class="flex items-center py-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 mr-2"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -443,36 +537,162 @@
                             </div>
                             <div class="space-y-0">${items.map(createFindingHtml).join('')}</div>
                         </div>
-                    `).join('');
+                    `);
                 }
 
-                // 3. Update view visibility
                 severityView.style.display = state.groupBy === 'severity' ? 'block' : 'none';
                 scanTypeView.style.display = state.groupBy === 'scan-type' ? 'block' : 'none';
                 groupByHeader.textContent = state.groupBy === 'severity' ? 'Severity' : 'Scan Type';
             };
 
+            const initializeState = () => {
+                if (state.autoOrg) {
+                    autoOrgToggle.classList.add('workflow-active');
+                    autoOrgToggle.classList.remove('opacity-40');
+                    orgAutoText.classList.remove('hidden');
+                    orgSelect.classList.add('hidden');
+                    orgDropdownArrow.classList.add('hidden');
+                    orgDropdownContainer.classList.add('has-tooltip');
+                } else {
+                    autoOrgToggle.classList.add('opacity-40');
+                }
+
+                if (state.autoScan) {
+                    autoScanToggle.classList.add('workflow-active');
+                    autoScanToggle.classList.remove('opacity-40');
+                } else {
+                    autoScanToggle.classList.add('opacity-40');
+                }
+
+                if (state.commitHooks) {
+                    commitHooksToggle.classList.add('workflow-active');
+                    commitHooksToggle.classList.remove('opacity-40');
+                } else {
+                    commitHooksToggle.classList.add('opacity-40');
+                }
+                commitHooksNotification.style.display = state.commitHooks ? 'none' : 'flex';
+
+                if (state.mcpTools) {
+                    mcpToolsToggle.classList.add('workflow-active');
+                    mcpToolsToggle.classList.remove('opacity-40');
+                } else {
+                    mcpToolsToggle.classList.add('opacity-40');
+                }
+                mcpServerNotification.style.display = state.mcpTools ? 'flex' : 'none';
+
+                secureInceptionNotification.style.display = state.secureAtInception ? 'flex' : 'none';
+
+
+                renderFindings();
+            };
+
             // --- EVENT LISTENERS ---
+
+            if (playButton) {
+                playButton.addEventListener('click', () => {
+                    const originalContent = findingsContainer.innerHTML;
+                    findingsContainer.innerHTML = `<div class="text-center text-gray-500 py-8">Please wait while the necessary scans are run.</div>`;
+                    setTimeout(() => {
+                        renderFindings();
+                    }, 2000);
+                });
+            }
 
             if (newIssuesToggle) {
                 newIssuesToggle.addEventListener('click', () => {
                     state.showNewOnly = !state.showNewOnly;
                     newIssuesToggle.classList.toggle('workflow-active');
                     newIssuesToggle.classList.toggle('opacity-40');
-                    render();
+                    renderFindings();
                 });
             }
 
-            if (secureToggle) {
-                secureToggle.addEventListener('click', () => {
-                    const isNowActive = !secureToggle.classList.toggle('opacity-40');
-                    if (isNowActive) {
-                        customRulesContainer.classList.remove('opacity-40', 'pointer-events-none');
+            if (autoOrgToggle) {
+                autoOrgToggle.addEventListener('click', () => {
+                    state.autoOrg = !state.autoOrg;
+                    autoOrgToggle.classList.toggle('workflow-active');
+                    autoOrgToggle.classList.toggle('opacity-40');
+                    if (state.autoOrg) {
+                        orgAutoText.classList.remove('hidden');
+                        orgSelect.classList.add('hidden');
+                        orgDropdownArrow.classList.add('hidden');
+                        orgDropdownContainer.classList.add('has-tooltip');
+
                     } else {
-                        customRulesContainer.classList.add('opacity-40', 'pointer-events-none');
+                        orgAutoText.classList.add('hidden');
+                        orgSelect.classList.remove('hidden');
+                        orgDropdownArrow.classList.remove('hidden');
+                        orgDropdownContainer.classList.remove('has-tooltip');
                     }
                 });
             }
+
+            if (autoScanToggle) {
+                autoScanToggle.addEventListener('click', () => {
+                    state.autoScan = !state.autoScan;
+                    autoScanToggle.classList.toggle('workflow-active');
+                    autoScanToggle.classList.toggle('opacity-40');
+                });
+            }
+
+            if (commitHooksToggle) {
+                commitHooksToggle.addEventListener('click', () => {
+                    state.commitHooks = !state.commitHooks;
+                    commitHooksToggle.classList.toggle('workflow-active');
+                    commitHooksToggle.classList.toggle('opacity-40');
+                    commitHooksNotification.style.display = state.commitHooks ? 'none' : 'flex';
+                });
+            }
+
+            if (mcpToolsToggle) {
+                mcpToolsToggle.addEventListener('click', () => {
+                    state.mcpTools = !state.mcpTools;
+                    mcpToolsToggle.classList.toggle('workflow-active');
+                    mcpToolsToggle.classList.toggle('opacity-40');
+                    mcpServerNotification.style.display = state.mcpTools ? 'flex' : 'none';
+                });
+            }
+
+
+            if (secureToggle) {
+                secureToggle.addEventListener('click', () => {
+                    state.secureAtInception = !state.secureAtInception;
+                    secureToggle.classList.toggle('workflow-active');
+                    secureToggle.classList.toggle('opacity-40');
+                    secureInceptionNotification.style.display = state.secureAtInception ? 'flex' : 'none';
+
+                    if (state.secureAtInception) {
+                        customRulesContainer.classList.remove('opacity-40', 'pointer-events-none');
+                    } else {
+                        customRulesContainer.classList.add('opacity-40', 'pointer-events-none');
+                        customRulesNotification.style.display = 'none'; // Hide notification if main toggle is off
+                    }
+                });
+            }
+
+            [ruleManual, ruleAutomatic, ruleAlways].forEach(rule => {
+                rule.addEventListener('click', () => {
+                    [ruleManual, ruleAutomatic, ruleAlways].forEach(r => r.classList.remove('bg-gray-600', 'text-white'));
+                    rule.classList.add('bg-gray-600', 'text-white');
+
+                    let mode = rule.id.split('-')[1];
+                    let text = `rules are now configured to be applied ${mode === 'always' ? 'always' : (mode === 'automatic' ? 'automatically when necessary' : 'when prompted')}`;
+
+                    customRulesNotificationText.innerHTML = `<span class="font-semibold text-white">Secure At Inception</span> ${text}`;
+                    customRulesNotification.style.display = 'flex';
+                });
+            });
+
+            [reachableFilter, autofixableFilter, ignoredFilter].forEach(filter => {
+                filter.addEventListener('change', () => {
+                    state.filters[filter.id.split('-')[0]] = filter.checked;
+                    renderFindings();
+                });
+            });
+            riskScoreFilter.addEventListener('input', (e) => {
+                state.filters.riskScore = parseInt(e.target.value) || 0;
+                renderFindings();
+            });
 
             if (scanTypeToggle) {
                 scanTypeToggle.addEventListener('click', () => {
@@ -481,7 +701,7 @@
                     scanTypeToggle.classList.remove('text-gray-400', 'hover:bg-gray-700/50');
                     severityToggle.classList.remove('bg-gray-700', 'text-white', 'font-semibold');
                     severityToggle.classList.add('text-gray-400', 'hover:bg-gray-700/50');
-                    render();
+                    renderFindings();
                 });
             }
 
@@ -492,12 +712,12 @@
                     severityToggle.classList.remove('text-gray-400', 'hover:bg-gray-700/50');
                     scanTypeToggle.classList.remove('bg-gray-700', 'text-white', 'font-semibold');
                     scanTypeToggle.classList.add('text-gray-400', 'hover:bg-gray-700/50');
-                    render();
+                    renderFindings();
                 });
             }
 
             // --- INITIAL RENDER ---
-            render();
+            initializeState();
         });
     </script>
 </body>
