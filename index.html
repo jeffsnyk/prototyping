@@ -40,6 +40,12 @@
             opacity: 1 !important;
             color: #fff !important;
         }
+
+        .filter-active {
+            background-color: #4b5563;
+            /* Corresponds to bg-gray-600 */
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -73,37 +79,22 @@
             <section class="py-3 px-4 border-b border-custom-line">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Configuration Options</h2>
 
-                <div class="grid grid-cols-2 items-start justify-around gap-8">
+                <div class="grid grid-cols-2 items-start justify-around gap-1 md:gap-8">
                     <!-- IDE Group -->
                     <div class="flex flex-col items-center">
-                        <div class="flex justify-between w-full px-2">
+                        <div class="flex justify-around w-full px-1 md:px-2">
                             <div id="new-issues-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer opacity-40">
+                                class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer opacity-40">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path d="M10 3L8 8l-5 2 5 2 2 5 2-5 5-2-5-2-2-5Z" />
                                     <path d="M16.38 13.62a2.63 2.63 0 1 1 3.72 3.72 2.63 2.63 0 0 1-3.72-3.72Z" />
                                 </svg>
-                                <span class="text-xs font-medium">New Issues</span>
-                            </div>
-                            <div id="auto-org-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" />
-                                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
-                                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
-                                    <path d="M10 6h4" />
-                                    <path d="M10 10h4" />
-                                    <path d="M10 14h4" />
-                                    <path d="M10 18h4" />
-                                </svg>
-                                <span class="text-xs font-medium">Auto Org</span>
+                                <span id="new-issues-label" class="text-xs font-medium">New Issues</span>
                             </div>
                             <div id="auto-scan-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
+                                class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -113,7 +104,7 @@
                                 <span class="text-xs font-medium">Auto Scan</span>
                             </div>
                             <div id="commit-hooks-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
+                                class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -126,10 +117,10 @@
                     </div>
 
                     <!-- Agent Group -->
-                    <div class="flex flex-col items-center border-l border-custom-line pl-8">
-                        <div class="flex items-start justify-between w-full px-2">
+                    <div class="flex flex-col items-center border-l border-custom-line pl-1 md:pl-8">
+                        <div class="flex items-start justify-around w-full px-1 md:px-2">
                             <div id="mcp-tools-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer">
+                                class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
@@ -137,26 +128,28 @@
                                 </svg>
                                 <span class="text-xs font-medium">MCP Tools</span>
                             </div>
-                            <div id="secure-toggle"
-                                class="flex flex-col items-center space-y-1 p-2 text-center cursor-pointer opacity-40">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                                <span class="text-xs font-medium whitespace-nowrap">Secure At Inception</span>
-                            </div>
-                            <div id="custom-rules-container"
-                                class="flex flex-col items-center space-y-1 p-2 text-center opacity-40 pointer-events-none">
-                                <div class="flex items-center bg-custom-dark p-1 rounded-md text-xs">
-                                    <span id="rule-manual" class="px-2 py-0.5 rounded-md cursor-pointer">Manual</span>
-                                    <span id="rule-automatic"
-                                        class="px-2 py-0.5 rounded-md cursor-pointer">Automatic</span>
-                                    <span id="rule-always"
-                                        class="px-2 py-0.5 rounded-md bg-gray-600 text-white cursor-pointer">Always</span>
+                            <div class="flex items-center space-x-1">
+                                <div id="secure-toggle"
+                                    class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer opacity-40">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-bot">
+                                        <path d="M12 8V4H8v4" />
+                                        <rect width="16" height="12" x="4" y="8" rx="2" />
+                                        <path d="M9 16v-2" />
+                                        <path d="M15 16v-2" />
+                                    </svg>
+                                    <span class="text-xs font-medium text-center">Secure At Inception</span>
                                 </div>
-                                <span class="text-xs font-medium text-gray-400 mt-2">Apply Custom Rules</span>
+                                <div id="custom-rules-container"
+                                    class="flex flex-col items-center opacity-40 pointer-events-none">
+                                    <select id="rules-select"
+                                        class="bg-custom-dark border-gray-600 text-white text-xs rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full p-1">
+                                        <option value="manual">Manual</option>
+                                        <option value="automatic">Automatic</option>
+                                        <option value="always" selected>Always</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,7 +160,7 @@
             <section class="p-4 border-b border-custom-line">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Security Findings</h2>
                 <!-- Filters & Group By -->
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4 md:gap-0">
                     <div class="flex items-center space-x-1 bg-[#2d333b] p-1 rounded-md text-xs w-fit">
                         <label id="severity-toggle"
                             class="cursor-pointer px-3 py-1 rounded-md bg-gray-700 text-white font-semibold">Severity</label>
@@ -175,37 +168,27 @@
                             class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">Scan
                             Type</label>
                         <label id="manifest-toggle"
-                            class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">Manifest or
-                            File</label>
+                            class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">File</label>
                     </div>
 
-                    <div class="flex items-center gap-4 text-xs text-gray-300">
-                        <div class="flex items-center">
-                            <input id="reachable-filter" type="checkbox"
-                                class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-gray-500 focus:ring-gray-600">
-                            <label for="reachable-filter" class="ml-2">Reachable</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="autofixable-filter" type="checkbox"
-                                class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-gray-500 focus:ring-gray-600">
-                            <label for="autofixable-filter" class="ml-2">Autofixable</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input id="ignored-filter" type="checkbox"
-                                class="h-4 w-4 rounded bg-gray-700 border-gray-600 text-gray-500 focus:ring-gray-600">
-                            <label for="ignored-filter" class="ml-2">Ignored</label>
-                        </div>
-                        <div class="flex items-center">
+                    <div class="flex flex-wrap items-center justify-start md:justify-end gap-2 text-xs text-gray-300">
+                        <label id="reachable-filter"
+                            class="cursor-pointer px-3 py-1 rounded-full bg-custom-dark text-gray-400 hover:bg-gray-600">Reachable</label>
+                        <label id="autofixable-filter"
+                            class="cursor-pointer px-3 py-1 rounded-full bg-custom-dark text-gray-400 hover:bg-gray-600">Autofixable</label>
+                        <label id="ignored-filter"
+                            class="cursor-pointer px-3 py-1 rounded-full bg-custom-dark text-gray-400 hover:bg-gray-600">Ignored</label>
+                        <div class="flex items-center space-x-2 bg-custom-dark rounded-full px-3 py-1">
+                            <label for="risk-score-filter" class="text-gray-400">Risk Score</label>
                             <input type="number" id="risk-score-filter" value="800"
-                                class="w-16 bg-gray-700 border-gray-600 rounded-md p-1 text-xs text-center">
-                            <label for="risk-score-filter" class="ml-2">Risk Score</label>
+                                class="w-12 bg-transparent border-0 text-white p-0 text-center focus:ring-0">
                         </div>
                     </div>
                 </div>
 
                 <div
                     class="flex justify-between items-center mb-2 text-xs text-gray-400 font-bold uppercase tracking-wider">
-                    <div id="group-by-header" class="flex-1">Severity</div>
+                    <div id="group-by-header" class="flex-1">Grouped by Severity</div>
                     <div class="w-28 text-right flex items-center justify-end gap-1 relative has-tooltip">
                         <span>Risk Score</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -242,6 +225,30 @@
             <!-- Notifications & Tasks Section -->
             <section class="p-4">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Notifications & Tasks</h2>
+                <!-- Toast Notification -->
+                <div id="toast-notification"
+                    class="mb-4 bg-blue-900/50 border border-blue-700 text-blue-200 px-3 py-2 rounded-lg relative flex items-center gap-3 text-sm"
+                    role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-lightbulb flex-shrink-0">
+                        <path
+                            d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                        <path d="M9 18h6" />
+                        <path d="M10 22h4" />
+                    </svg>
+                    <p class="flex-grow">
+                        <span>Snyk for VS Code can now automatically manage git commit hooks to prevent the introduction
+                            of new vulnerabilities!</span>
+                        <a href="#" class="text-indigo-400 font-semibold hover:underline ml-2 whitespace-nowrap">Learn
+                            More →</a>
+                    </p>
+                    <button id="close-toast" type="button" class="ml-auto pl-4 pr-1 self-start"
+                        data-dismiss-target="#toast-notification" aria-label="Close">
+                        <span class="text-xl text-blue-200/70 hover:text-white" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
                 <div class="space-y-1">
                     <!-- Notification Item -->
                     <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
@@ -311,7 +318,7 @@
                         <p class="text-sm text-gray-300"><span class="font-semibold text-white">Secure at
                                 Inception</span> rules have been added for <span
                                 class="font-semibold text-white">Copilot</span>. <a href="#"
-                                class="text-indigo-400 font-semibold hover:underline ml-2">Learn More →</a></p>
+                                class="text-indigo-400 font-semibold hover:underline ml-2 text-sm">Learn More →</a></p>
                     </div>
                     <!-- Notification Item -->
                     <div id="custom-rules-notification"
@@ -325,7 +332,6 @@
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
                         </svg>
                         <p id="custom-rules-notification-text" class="text-sm text-gray-300"></p>
-                        <a href="#" class="text-indigo-400 font-semibold hover:underline ml-2">Learn More →</a>
                     </div>
                     <!-- Notification Item -->
                     <div id="commit-hooks-notification"
@@ -350,28 +356,33 @@
         <footer class="p-4 border-t border-custom-line bg-custom-darker">
             <div class="flex items-center justify-between text-xs text-gray-300">
                 <div class="flex items-center gap-6">
-                    <div class="relative">
-                        <div id="org-dropdown-container" class="flex items-center bg-custom-dark rounded-md px-3 py-1">
-                            <span id="org-auto-text" class="font-semibold">Automatic Selection</span>
-                            <select id="org-select"
-                                class="bg-custom-dark border-0 text-white font-semibold hidden focus:ring-0 appearance-none">
-                                <option>ACME Enterprises</option>
-                                <option>Financial Bank Inc</option>
-                                <option>Software Factory Ltd</option>
-                            </select>
-                            <svg id="org-dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="ml-2 text-gray-400">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                        <div id="org-tooltip"
-                            class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-2 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
-                            Last used: ACME Enterprises
-                            <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
-                                viewBox="0 0 255 255" xml:space="preserve">
-                                <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-                            </svg>
+                    <div class="flex items-center">
+                        <span class="text-gray-400 mr-2">Org</span>
+                        <div class="relative has-tooltip">
+                            <div id="org-dropdown-container"
+                                class="flex items-center bg-custom-dark rounded-md px-3 py-1 relative">
+                                <select id="org-select"
+                                    class="bg-custom-dark border-0 text-white font-semibold focus:ring-0 appearance-none pr-8 cursor-pointer">
+                                    <option value="auto">Automatic Selection</option>
+                                    <option value="acme">ACME Enterprises</option>
+                                    <option value="bank">Financial Bank Inc</option>
+                                    <option value="soft">Software Factory Ltd</option>
+                                </select>
+                                <svg id="org-dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="ml-2 text-gray-400 absolute right-2 pointer-events-none">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                            <div id="org-tooltip"
+                                class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-2 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
+                                Last used: ACME Enterprises
+                                <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
+                                    viewBox="0 0 255 255" xml:space="preserve">
+                                    <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                     <div class="flex items-center">
@@ -402,7 +413,6 @@
             const state = {
                 groupBy: 'severity',
                 showNewOnly: false,
-                autoOrg: true,
                 autoScan: true,
                 commitHooks: true,
                 mcpTools: true,
@@ -417,15 +427,13 @@
 
             // --- DOM ELEMENTS ---
             const newIssuesToggle = document.getElementById('new-issues-toggle');
-            const autoOrgToggle = document.getElementById('auto-org-toggle');
+            const newIssuesLabel = document.getElementById('new-issues-label');
             const autoScanToggle = document.getElementById('auto-scan-toggle');
             const commitHooksToggle = document.getElementById('commit-hooks-toggle');
             const mcpToolsToggle = document.getElementById('mcp-tools-toggle');
             const secureToggle = document.getElementById('secure-toggle');
             const customRulesContainer = document.getElementById('custom-rules-container');
-            const ruleManual = document.getElementById('rule-manual');
-            const ruleAutomatic = document.getElementById('rule-automatic');
-            const ruleAlways = document.getElementById('rule-always');
+            const rulesSelect = document.getElementById('rules-select');
             const severityToggle = document.getElementById('severity-toggle');
             const scanTypeToggle = document.getElementById('scan-type-toggle');
             const manifestToggle = document.getElementById('manifest-toggle');
@@ -434,10 +442,8 @@
             const manifestView = document.getElementById('manifest-view');
             const findingsContainer = document.getElementById('findings-container');
             const groupByHeader = document.getElementById('group-by-header');
-            const orgDropdownContainer = document.getElementById('org-dropdown-container').parentElement; // Get the tooltip wrapper
-            const orgAutoText = document.getElementById('org-auto-text');
             const orgSelect = document.getElementById('org-select');
-            const orgDropdownArrow = document.getElementById('org-dropdown-arrow');
+            const orgTooltipContainer = document.getElementById('org-tooltip').parentElement;
             const commitHooksNotification = document.getElementById('commit-hooks-notification');
             const mcpServerNotification = document.getElementById('mcp-server-notification');
             const secureInceptionNotification = document.getElementById('secure-inception-notification');
@@ -448,6 +454,8 @@
             const ignoredFilter = document.getElementById('ignored-filter');
             const riskScoreFilter = document.getElementById('risk-score-filter');
             const playButton = document.getElementById('play-button');
+            const toastNotification = document.getElementById('toast-notification');
+            const closeToast = document.getElementById('close-toast');
 
 
             // --- RENDER FUNCTIONS ---
@@ -491,7 +499,7 @@
                                 <p class="text-xs text-gray-400 mt-1">${subtitle}</p>
                             </div>
                         </div>
-                        <div class="w-28 text-right text-base font-normal text-gray-400">${finding.risk}</div>
+                        <div class="w-28 text-right text-sm font-normal text-gray-400">${finding.risk}</div>
                     </div>
                 `;
             };
@@ -573,23 +581,21 @@
                     `, (a, b) => a[0].localeCompare(b[0]));
                 }
 
+                let headerText = state.groupBy.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                if (state.groupBy === 'manifest') {
+                    headerText = 'File';
+                }
+                groupByHeader.textContent = 'Grouped by ' + headerText;
+
                 severityView.style.display = state.groupBy === 'severity' ? 'block' : 'none';
                 scanTypeView.style.display = state.groupBy === 'scan-type' ? 'block' : 'none';
                 manifestView.style.display = state.groupBy === 'manifest' ? 'block' : 'none';
-                groupByHeader.textContent = state.groupBy.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+
             };
 
             const initializeState = () => {
-                if (state.autoOrg) {
-                    autoOrgToggle.classList.add('workflow-active');
-                    autoOrgToggle.classList.remove('opacity-40');
-                    orgAutoText.classList.remove('hidden');
-                    orgSelect.classList.add('hidden');
-                    orgDropdownArrow.classList.add('hidden');
-                    orgDropdownContainer.classList.add('has-tooltip');
-                } else {
-                    autoOrgToggle.classList.add('opacity-40');
-                }
+                const newIssuesCount = allFindings.filter(f => f.isNew).length;
+                newIssuesLabel.textContent = `New Issues (${newIssuesCount})`;
 
                 if (state.autoScan) {
                     autoScanToggle.classList.add('workflow-active');
@@ -641,22 +647,12 @@
                 });
             }
 
-            if (autoOrgToggle) {
-                autoOrgToggle.addEventListener('click', () => {
-                    state.autoOrg = !state.autoOrg;
-                    autoOrgToggle.classList.toggle('workflow-active');
-                    autoOrgToggle.classList.toggle('opacity-40');
-                    if (state.autoOrg) {
-                        orgAutoText.classList.remove('hidden');
-                        orgSelect.classList.add('hidden');
-                        orgDropdownArrow.classList.add('hidden');
-                        orgDropdownContainer.classList.add('has-tooltip');
-
+            if (orgSelect) {
+                orgSelect.addEventListener('change', () => {
+                    if (orgSelect.value === 'auto') {
+                        orgTooltipContainer.classList.add('has-tooltip');
                     } else {
-                        orgAutoText.classList.add('hidden');
-                        orgSelect.classList.remove('hidden');
-                        orgDropdownArrow.classList.remove('hidden');
-                        orgDropdownContainer.classList.remove('has-tooltip');
+                        orgTooltipContainer.classList.remove('has-tooltip');
                     }
                 });
             }
@@ -704,25 +700,30 @@
                 });
             }
 
-            [ruleManual, ruleAutomatic, ruleAlways].forEach(rule => {
-                rule.addEventListener('click', () => {
-                    [ruleManual, ruleAutomatic, ruleAlways].forEach(r => r.classList.remove('bg-gray-600', 'text-white'));
-                    rule.classList.add('bg-gray-600', 'text-white');
-
-                    let mode = rule.id.split('-')[1];
+            if (rulesSelect) {
+                rulesSelect.addEventListener('change', (e) => {
+                    let mode = e.target.value;
                     let text = `rules are now configured to be applied ${mode === 'always' ? 'always' : (mode === 'automatic' ? 'automatically when necessary' : 'when prompted')}`;
 
                     customRulesNotificationText.innerHTML = `<span class="font-semibold text-white">Secure At Inception</span> ${text}`;
                     customRulesNotification.style.display = 'flex';
                 });
-            });
+            }
+
+            if (closeToast) {
+                closeToast.addEventListener('click', () => {
+                    toastNotification.style.display = 'none';
+                });
+            }
 
             [reachableFilter, autofixableFilter, ignoredFilter].forEach(filter => {
-                filter.addEventListener('change', () => {
-                    state.filters[filter.id.split('-')[0]] = filter.checked;
+                filter.addEventListener('click', () => {
+                    filter.classList.toggle('filter-active');
+                    state.filters[filter.id.split('-')[0]] = filter.classList.contains('filter-active');
                     renderFindings();
                 });
             });
+
             riskScoreFilter.addEventListener('input', (e) => {
                 state.filters.riskScore = parseInt(e.target.value) || 0;
                 renderFindings();
