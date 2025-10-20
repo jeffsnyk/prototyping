@@ -32,11 +32,12 @@
         .has-tooltip:hover .tooltip {
             visibility: visible;
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) translateX(-50%);
         }
 
         .tooltip {
             z-index: 50;
+            transform: translateY(0) translateX(-50%);
         }
 
         /* Style for active workflow button */
@@ -126,7 +127,7 @@
                             <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
                         <div
-                            class="tooltip absolute bottom-full mb-2 w-64 bg-black text-white text-xs rounded py-2 px-3 right-0 transform transition-all duration-200 invisible opacity-0 -translate-y-2 font-normal normal-case">
+                            class="tooltip absolute bottom-full mb-2 w-64 bg-black text-white text-xs rounded py-2 px-3 left-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2 font-normal normal-case">
                             Snyk Risk Score is a single value assigned to an issue, applied by automatic risk analysis
                             for all vulnerability-type issues. Risk Score is based on the potential impact and
                             likelihood of exploitability.
@@ -299,22 +300,22 @@
             </section>
             <!-- Configuration Options Section -->
             <section class="p-4 border-b border-custom-line">
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Configuration Options</h2>
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Features Enabled</h2>
 
-                <div class="grid grid-cols-2 items-start justify-around gap-1 md:gap-8">
+                <div class="grid grid-cols-2 items-center justify-around gap-1 md:gap-8">
                     <!-- IDE Group -->
                     <div class="flex flex-col items-center">
                         <div class="flex justify-around w-full px-1 md:px-2">
                             <div class="relative has-tooltip">
                                 <div id="new-issues-toggle"
-                                    class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer opacity-40">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    class="flex flex-col items-center text-center cursor-pointer opacity-40">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path d="M10 3L8 8l-5 2 5 2 2 5 2-5 5-2-5-2-2-5Z" />
                                         <path d="M16.38 13.62a2.63 2.63 0 1 1 3.72 3.72 2.63 2.63 0 0 1-3.72-3.72Z" />
                                     </svg>
-                                    <span id="new-issues-label" class="text-xs font-medium">New Issues</span>
+                                    <span id="new-issues-label" class="text-xs font-medium mt-1">New Issues</span>
                                 </div>
                                 <div
                                     class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-1 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
@@ -322,14 +323,14 @@
                             </div>
                             <div class="relative has-tooltip">
                                 <div id="auto-scan-toggle"
-                                    class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    class="flex flex-col items-center text-center cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <circle cx="11" cy="11" r="8" />
                                         <path d="m21 21-4.3-4.3" />
                                     </svg>
-                                    <span class="text-xs font-medium">Auto Scan</span>
+                                    <span class="text-xs font-medium mt-1">Auto Scan</span>
                                 </div>
                                 <div
                                     class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-1 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
@@ -337,14 +338,14 @@
                             </div>
                             <div class="relative has-tooltip">
                                 <div id="commit-hooks-toggle"
-                                    class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    class="flex flex-col items-center text-center cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                     </svg>
-                                    <span class="text-xs font-medium">Commit Hooks</span>
+                                    <span class="text-xs font-medium mt-1">Commit Hooks</span>
                                 </div>
                                 <div
                                     class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-1 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
@@ -358,13 +359,13 @@
                         <div class="flex items-start justify-around w-full px-1 md:px-2">
                             <div class="relative has-tooltip">
                                 <div id="mcp-tools-toggle"
-                                    class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    class="flex flex-col items-center text-center cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round">
                                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                     </svg>
-                                    <span class="text-xs font-medium">MCP Tools</span>
+                                    <span class="text-xs font-medium mt-1">MCP Tools</span>
                                 </div>
                                 <div
                                     class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-1 px-3 left-1/2 -translate-x-1/2 transform transition-all duration-200 invisible opacity-0 -translate-y-2">
@@ -373,8 +374,8 @@
                             <div class="relative has-tooltip">
                                 <div class="flex items-center space-x-1">
                                     <div id="secure-toggle"
-                                        class="flex flex-col items-center space-y-1 p-1 text-center cursor-pointer opacity-40">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        class="flex flex-col items-center text-center cursor-pointer opacity-40">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot">
                                             <path d="M12 8V4H8v4" />
@@ -382,7 +383,7 @@
                                             <path d="M9 16v-2" />
                                             <path d="M15 16v-2" />
                                         </svg>
-                                        <span class="text-xs font-medium text-center">Secure At Inception</span>
+                                        <span class="text-xs font-medium text-center mt-1">Secure At Inception</span>
                                     </div>
                                     <div id="custom-rules-container"
                                         class="flex flex-col items-center opacity-40 pointer-events-none">
@@ -628,6 +629,11 @@
                     view.innerHTML = entries.map(createGroupHtml).join('');
                 };
 
+                let headerText = state.groupBy.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                if (state.groupBy === 'manifest') headerText = 'File';
+                groupByHeader.textContent = `Grouped by ${headerText} (${findingsToShow.length})`;
+
+
                 if (state.groupBy === 'severity') {
                     const grouped = findingsToShow.reduce((acc, f) => { (acc[f.severity] = acc[f.severity] || []).push(f); return acc; }, {});
                     renderView(severityView, grouped, ([severity, items]) => `
@@ -672,16 +678,9 @@
                     `, (a, b) => a[0].localeCompare(b[0]));
                 }
 
-                let headerText = state.groupBy.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                if (state.groupBy === 'manifest') {
-                    headerText = 'File';
-                }
-                groupByHeader.textContent = 'Grouped by ' + headerText;
-
                 severityView.style.display = state.groupBy === 'severity' ? 'block' : 'none';
                 scanTypeView.style.display = state.groupBy === 'scan-type' ? 'block' : 'none';
                 manifestView.style.display = state.groupBy === 'manifest' ? 'block' : 'none';
-
             };
 
             const updateNotificationCount = () => {
