@@ -150,139 +150,153 @@
                     <div id="manifest-view" class="space-y-1" style="display: none;"></div>
                 </div>
             </section>
-
-            <!-- Notifications & Tasks Section -->
-            <section class="p-4 border-t border-custom-line">
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Notifications & Tasks</h2>
-                <!-- Toast Notification -->
-                <div id="toast-notification"
-                    class="mb-4 bg-blue-900/50 border border-blue-700 text-blue-200 px-3 py-2 rounded-lg relative flex items-center gap-3 text-sm"
-                    role="alert">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-lightbulb flex-shrink-0">
-                        <path
-                            d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
-                        <path d="M9 18h6" />
-                        <path d="M10 22h4" />
-                    </svg>
-                    <p class="flex-grow">
-                        <span>Snyk for VS Code can now automatically manage git commit hooks to prevent the introduction
-                            of new vulnerabilities!</span>
-                        <a href="#" class="text-indigo-400 font-semibold hover:underline ml-2 whitespace-nowrap">Learn
-                            More →</a>
-                    </p>
-                    <button id="close-toast" type="button" class="ml-auto pl-4 pr-1 self-start"
-                        data-dismiss-target="#toast-notification" aria-label="Close">
-                        <span class="text-xl text-blue-200/70 hover:text-white" aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="space-y-1">
-                    <!-- Notification Item -->
-                    <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-purple-400 mt-0.5 flex-shrink-0">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                        </svg>
-                        <p class="text-sm text-gray-300">You have been assigned the <span
-                                class="font-semibold text-white">OWASP Top 10</span> learning path in <span
-                                class="font-semibold text-white">Snyk Learn</span>. <a href="#"
-                                class="text-indigo-400 font-semibold hover:underline ml-2">Start Learning →</a></p>
-                    </div>
-                    <!-- Notification Item -->
-                    <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-green-500 mt-0.5 flex-shrink-0">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        <p class="text-sm text-gray-300">Your ignore for <span
-                                class="font-semibold text-white">Prototype Pollution minimist@1.2.5</span> was approved
-                            by <span class="font-semibold text-white">Jane Doe</span>. <a href="#"
-                                class="text-indigo-400 font-semibold hover:underline ml-2">View Finding →</a></p>
-                    </div>
-                    <!-- Notification Item -->
-                    <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-blue-500 mt-0.5 flex-shrink-0">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        <p class="text-sm text-gray-300"><span class="font-semibold text-white">3 high severity
-                                issues</span> were automatically resolved by <span
-                                class="font-semibold text-white">Remediation Agent</span> in <span
-                                class="font-mono text-xs bg-custom-dark px-1 py-0.5 rounded">package.json</span>. <a
-                                href="#" class="text-indigo-400 font-semibold hover:underline ml-2">Review Pull Request
-                                →</a></p>
-                    </div>
-                    <!-- Notification Item -->
-                    <div id="mcp-server-notification"
-                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
-                        style="display: none;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-gray-400 mt-0.5 flex-shrink-0">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        <p class="text-sm text-gray-300"><span class="font-semibold text-white">Snyk MCP server</span>
-                            has now been configured for <span class="font-semibold text-white">Copilot</span></p>
-                    </div>
-                    <!-- Notification Item -->
-                    <div id="secure-inception-notification"
-                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
-                        style="display: none;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-gray-400 mt-0.5 flex-shrink-0">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        <p class="text-sm text-gray-300"><span class="font-semibold text-white">Secure at
-                                Inception</span> rules have been added for <span
-                                class="font-semibold text-white">Copilot</span>. <a href="#"
-                                class="text-indigo-400 font-semibold hover:underline ml-2 text-sm">Learn More →</a></p>
-                    </div>
-                    <!-- Notification Item -->
-                    <div id="custom-rules-notification"
-                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
-                        style="display: none;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-gray-400 mt-0.5 flex-shrink-0">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
-                        <p id="custom-rules-notification-text" class="text-sm text-gray-300"></p>
-                    </div>
-                    <!-- Notification Item -->
-                    <div id="commit-hooks-notification"
-                        class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-yellow-500 mt-0.5 flex-shrink-0">
-                            <path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
-                            <line x1="12" y1="9" x2="12" y2="13"></line>
-                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                        </svg>
-                        <p class="text-sm text-gray-300"><span class="font-semibold text-white">Commit hooks</span> were
-                            disabled. We removed the local git hook from the <span
-                                class="font-mono text-xs bg-custom-dark px-1 py-0.5 rounded">registry</span> repository
-                        </p>
-                    </div>
-                </div>
-            </section>
         </div>
 
         <!-- Footer -->
         <footer class="flex-shrink-0 bg-custom-darker border-t border-custom-line">
+            <!-- Notifications & Tasks Section -->
+            <section class="p-4 border-b border-custom-line">
+                <div id="notifications-header" class="flex justify-between items-center mb-4 cursor-pointer">
+                    <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Notifications & Tasks (<span
+                            id="notification-count"></span>)</h2>
+                    <svg id="toggle-notifications-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="text-gray-400 transition-transform">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+
+                <div id="notification-list">
+                    <!-- Toast Notification -->
+                    <div id="toast-notification"
+                        class="mb-4 bg-blue-900/50 border border-blue-700 text-blue-200 px-3 py-2 rounded-lg relative flex items-center gap-3 text-sm"
+                        role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-lightbulb flex-shrink-0">
+                            <path
+                                d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                            <path d="M9 18h6" />
+                            <path d="M10 22h4" />
+                        </svg>
+                        <p class="flex-grow">
+                            <span>Snyk for VS Code can now automatically manage git commit hooks to prevent the
+                                introduction of new vulnerabilities!</span>
+                            <a href="#"
+                                class="text-indigo-400 font-semibold hover:underline ml-2 whitespace-nowrap">Learn More
+                                →</a>
+                        </p>
+                        <button id="close-toast" type="button" class="ml-auto pl-4 pr-1 self-start"
+                            data-dismiss-target="#toast-notification" aria-label="Close">
+                            <span class="text-xl text-blue-200/70 hover:text-white" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-1">
+                        <!-- Notification Item -->
+                        <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-purple-400 mt-0.5 flex-shrink-0">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            <p class="text-sm text-gray-300">You have been assigned the <span
+                                    class="font-semibold text-white">OWASP Top 10</span> learning path in <span
+                                    class="font-semibold text-white">Snyk Learn</span>. <a href="#"
+                                    class="text-indigo-400 font-semibold hover:underline ml-2">Start Learning →</a></p>
+                        </div>
+                        <!-- Notification Item -->
+                        <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-green-500 mt-0.5 flex-shrink-0">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            <p class="text-sm text-gray-300">Your ignore for <span
+                                    class="font-semibold text-white">Prototype Pollution minimist@1.2.5</span> was
+                                approved by <span class="font-semibold text-white">Jane Doe</span>. <a href="#"
+                                    class="text-indigo-400 font-semibold hover:underline ml-2">View Finding →</a></p>
+                        </div>
+                        <!-- Notification Item -->
+                        <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-blue-500 mt-0.5 flex-shrink-0">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">3 high severity
+                                    issues</span> were automatically resolved by <span
+                                    class="font-semibold text-white">Remediation Agent</span> in <span
+                                    class="font-mono text-xs bg-custom-dark px-1 py-0.5 rounded">package.json</span>. <a
+                                    href="#" class="text-indigo-400 font-semibold hover:underline ml-2">Review Pull
+                                    Request →</a></p>
+                        </div>
+                        <!-- Notification Item -->
+                        <div id="mcp-server-notification"
+                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                            style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-gray-400 mt-0.5 flex-shrink-0">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">Snyk MCP
+                                    server</span> has now been configured for <span
+                                    class="font-semibold text-white">Copilot</span></p>
+                        </div>
+                        <!-- Notification Item -->
+                        <div id="secure-inception-notification"
+                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                            style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-gray-400 mt-0.5 flex-shrink-0">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">Secure at
+                                    Inception</span> rules have been added for <span
+                                    class="font-semibold text-white">Copilot</span>. <a href="#"
+                                    class="text-indigo-400 font-semibold hover:underline ml-2 text-sm">Learn More →</a>
+                            </p>
+                        </div>
+                        <!-- Notification Item -->
+                        <div id="custom-rules-notification"
+                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                            style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-gray-400 mt-0.5 flex-shrink-0">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <p id="custom-rules-notification-text" class="text-sm text-gray-300"></p>
+                        </div>
+                        <!-- Notification Item -->
+                        <div id="commit-hooks-notification"
+                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-yellow-500 mt-0.5 flex-shrink-0">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z">
+                                </path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">Commit hooks</span>
+                                were disabled. We removed the local git hook from the <span
+                                    class="font-mono text-xs bg-custom-dark px-1 py-0.5 rounded">registry</span>
+                                repository</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- Configuration Options Section -->
             <section class="p-4 border-b border-custom-line">
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Configuration Options</h2>
@@ -529,6 +543,10 @@
             const playButton = document.getElementById('play-button');
             const toastNotification = document.getElementById('toast-notification');
             const closeToast = document.getElementById('close-toast');
+            const notificationsHeader = document.getElementById('notifications-header');
+            const notificationList = document.getElementById('notification-list');
+            const notificationCount = document.getElementById('notification-count');
+            const toggleNotificationsArrow = document.getElementById('toggle-notifications-arrow');
 
 
             // --- RENDER FUNCTIONS ---
@@ -666,6 +684,11 @@
 
             };
 
+            const updateNotificationCount = () => {
+                const visibleNotifications = notificationList.querySelectorAll('.p-2:not([style*="display: none"])');
+                notificationCount.textContent = visibleNotifications.length;
+            }
+
             const initializeState = () => {
                 const newIssuesCount = allFindings.filter(f => f.isNew).length;
                 newIssuesLabel.textContent = `New Issues (${newIssuesCount})`;
@@ -703,7 +726,7 @@
 
                 secureInceptionNotification.style.display = state.secureAtInception ? 'flex' : 'none';
 
-
+                updateNotificationCount();
                 renderFindings();
             };
 
@@ -763,6 +786,7 @@
                     commitHooksToggle.classList.toggle('workflow-active');
                     commitHooksToggle.classList.toggle('opacity-40');
                     commitHooksNotification.style.display = state.commitHooks ? 'none' : 'flex';
+                    updateNotificationCount();
                 });
             }
 
@@ -772,6 +796,7 @@
                     mcpToolsToggle.classList.toggle('workflow-active');
                     mcpToolsToggle.classList.toggle('opacity-40');
                     mcpServerNotification.style.display = state.mcpTools ? 'flex' : 'none';
+                    updateNotificationCount();
                 });
             }
 
@@ -789,6 +814,7 @@
                         customRulesContainer.classList.add('opacity-40', 'pointer-events-none');
                         customRulesNotification.style.display = 'none'; // Hide notification if main toggle is off
                     }
+                    updateNotificationCount();
                 });
             }
 
@@ -799,12 +825,14 @@
 
                     customRulesNotificationText.innerHTML = `<span class="font-semibold text-white">Secure At Inception</span> ${text} <a href="#" class="text-indigo-400 font-semibold hover:underline ml-2 text-sm">Learn More →</a>`;
                     customRulesNotification.style.display = 'flex';
+                    updateNotificationCount();
                 });
             }
 
             if (closeToast) {
                 closeToast.addEventListener('click', () => {
                     toastNotification.style.display = 'none';
+                    updateNotificationCount();
                 });
             }
 
@@ -842,6 +870,11 @@
 
                     renderFindings();
                 });
+            });
+
+            notificationsHeader.addEventListener('click', () => {
+                notificationList.classList.toggle('hidden');
+                toggleNotificationsArrow.classList.toggle('rotate-180');
             });
 
             // --- INITIAL RENDER ---
