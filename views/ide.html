@@ -36,7 +36,13 @@
             z-index: 50;
             position: fixed;
             /* Position is handled by JS */
-            white-space: nowrap;
+            white-space: normal;
+            /* Allow text wrapping */
+        }
+
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
         }
 
         /* Style for active workflow button */
@@ -85,17 +91,38 @@
                 <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Security Findings</h2>
                 <!-- Filters & Group By -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
-                    <div class="flex items-center space-x-1 bg-[#2d333b] p-1 rounded-md text-xs w-fit">
-                        <label id="severity-toggle"
-                            class="cursor-pointer px-3 py-1 rounded-md bg-gray-700 text-white font-semibold">Severity</label>
-                        <label id="scan-type-toggle"
-                            class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">Scan
-                            Type</label>
-                        <label id="manifest-toggle"
-                            class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">File</label>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="flex items-center space-x-1 bg-[#2d333b] p-1 rounded-md text-xs w-fit flex-shrink-0">
+                            <label id="severity-toggle"
+                                class="cursor-pointer px-3 py-1 rounded-md bg-gray-700 text-white font-semibold">Severity</label>
+                            <label id="scan-type-toggle"
+                                class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">Scan
+                                Type</label>
+                            <div id="manifest-container" class="relative">
+                                <label id="manifest-toggle"
+                                    class="cursor-pointer px-3 py-1 rounded-md text-gray-400 hover:bg-gray-700/50">File</label>
+                                <div
+                                    class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-1 px-3">
+                                    When filtering by Current File, this option is disabled</div>
+                            </div>
+                        </div>
+                        <div class="relative flex-1 min-w-[150px]">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input id="search-box" type="text" placeholder="Search..."
+                                class="bg-custom-dark border-custom-line text-xs rounded-full w-full pl-9 pr-3 py-1 focus:ring-1 focus:ring-indigo-500">
+                        </div>
                     </div>
 
                     <div class="flex flex-wrap items-center justify-start md:justify-end gap-2 text-xs text-gray-300">
+                        <label id="current-file-filter"
+                            class="cursor-pointer px-3 py-1 rounded-full bg-custom-dark text-gray-400 hover:bg-gray-600">Current
+                            File</label>
                         <label id="reachable-filter"
                             class="cursor-pointer px-3 py-1 rounded-full bg-custom-dark text-gray-400 hover:bg-gray-600">Reachable</label>
                         <label id="autofixable-filter"
@@ -125,7 +152,8 @@
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                             <line x1="12" y1="17" x2="12.01" y2="17"></line>
                         </svg>
-                        <div class="tooltip w-64 bg-black text-white text-xs rounded py-2 px-3 font-normal normal-case">
+                        <div
+                            class="tooltip w-64 bg-black text-white text-xs rounded py-2 px-3 font-normal normal-case tooltip-multiline">
                             Snyk Risk Score is a single value assigned to an issue, applied by automatic risk analysis
                             for all vulnerability-type issues. Risk Score is based on the potential impact and
                             likelihood of exploitability.
@@ -175,7 +203,7 @@
                 <div id="notification-list">
                     <!-- Toast Notification -->
                     <div id="toast-notification"
-                        class="mb-4 bg-blue-900/50 border border-blue-700 text-blue-200 px-3 py-2 rounded-lg relative flex items-center gap-3 text-sm"
+                        class="notification-item mb-4 bg-blue-900/50 border border-blue-700 text-blue-200 px-3 py-2 rounded-lg relative flex items-center gap-3 text-xs"
                         role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -198,41 +226,44 @@
                         </button>
                     </div>
 
-                    <div class="space-y-1">
+                    <div class="space-y-0.5">
                         <!-- Notification Item -->
-                        <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                        <div
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="text-purple-400 mt-0.5 flex-shrink-0">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
-                            <p class="text-sm text-gray-300">You have been assigned the <span
+                            <p class="text-xs text-gray-300">You have been assigned the <span
                                     class="font-semibold text-white">OWASP Top 10</span> learning path in <span
                                     class="font-semibold text-white">Snyk Learn</span>. <a href="#"
                                     class="text-indigo-400 font-semibold hover:underline ml-2">Start Learning →</a></p>
                         </div>
                         <!-- Notification Item -->
-                        <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                        <div
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="text-green-500 mt-0.5 flex-shrink-0">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            <p class="text-sm text-gray-300">Your ignore for <span
+                            <p class="text-xs text-gray-300">Your ignore for <span
                                     class="font-semibold text-white">Prototype Pollution minimist@1.2.5</span> was
                                 approved by <span class="font-semibold text-white">Jane Doe</span>. <a href="#"
                                     class="text-indigo-400 font-semibold hover:underline ml-2">View Finding →</a></p>
                         </div>
                         <!-- Notification Item -->
-                        <div class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                        <div
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="text-blue-500 mt-0.5 flex-shrink-0">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             </svg>
-                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">3 high severity
+                            <p class="text-xs text-gray-300"><span class="font-semibold text-white">3 high severity
                                     issues</span> were automatically resolved by <span
                                     class="font-semibold text-white">Remediation Agent</span> in <span
                                     class="font-mono text-xs bg-custom-dark px-1 py-0.5 rounded">package.json</span>. <a
@@ -241,7 +272,7 @@
                         </div>
                         <!-- Notification Item -->
                         <div id="mcp-server-notification"
-                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
                             style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -250,13 +281,13 @@
                                 <line x1="12" y1="16" x2="12" y2="12"></line>
                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">Snyk MCP
+                            <p class="text-xs text-gray-300"><span class="font-semibold text-white">Snyk MCP
                                     server</span> has now been configured for <span
                                     class="font-semibold text-white">Copilot</span></p>
                         </div>
                         <!-- Notification Item -->
                         <div id="secure-inception-notification"
-                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
                             style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -265,15 +296,15 @@
                                 <line x1="12" y1="16" x2="12" y2="12"></line>
                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">Secure at
+                            <p class="text-xs text-gray-300"><span class="font-semibold text-white">Secure at
                                     Inception</span> rules have been added for <span
                                     class="font-semibold text-white">Copilot</span>. <a href="#"
-                                    class="text-indigo-400 font-semibold hover:underline ml-2 text-sm">Learn More →</a>
+                                    class="text-indigo-400 font-semibold hover:underline ml-2 text-xs">Learn More →</a>
                             </p>
                         </div>
                         <!-- Notification Item -->
                         <div id="custom-rules-notification"
-                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors"
                             style="display: none;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -282,11 +313,11 @@
                                 <line x1="12" y1="16" x2="12" y2="12"></line>
                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-                            <p id="custom-rules-notification-text" class="text-sm text-gray-300"></p>
+                            <p id="custom-rules-notification-text" class="text-xs text-gray-300"></p>
                         </div>
                         <!-- Notification Item -->
                         <div id="commit-hooks-notification"
-                            class="p-2 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
+                            class="notification-item p-1.5 rounded-lg flex items-start gap-3 hover:bg-custom-dark transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="text-yellow-500 mt-0.5 flex-shrink-0">
@@ -295,7 +326,7 @@
                                 <line x1="12" y1="9" x2="12" y2="13"></line>
                                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
                             </svg>
-                            <p class="text-sm text-gray-300"><span class="font-semibold text-white">Commit hooks</span>
+                            <p class="text-xs text-gray-300"><span class="font-semibold text-white">Commit hooks</span>
                                 were disabled. We removed the local git hook from the <span
                                     class="font-mono text-xs bg-custom-dark px-1 py-0.5 rounded">registry</span>
                                 repository</p>
@@ -458,10 +489,6 @@
                             <div id="org-tooltip"
                                 class="tooltip absolute bottom-full mb-2 w-max bg-black text-white text-xs rounded py-2 px-3">
                                 Last used: ACME Enterprises
-                                <svg class="absolute text-black h-2 w-full left-0 top-full" x="0px" y="0px"
-                                    viewBox="0 0 255 255" xml:space="preserve">
-                                    <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-                                </svg>
                             </div>
                         </div>
                     </div>
@@ -511,7 +538,9 @@
                     reachable: false,
                     autofixable: false,
                     ignored: false,
-                    riskScore: 800
+                    riskScore: 800,
+                    searchTerm: '',
+                    currentFile: false
                 }
             };
 
@@ -542,6 +571,7 @@
             const secureInceptionNotification = document.getElementById('secure-inception-notification');
             const customRulesNotification = document.getElementById('custom-rules-notification');
             const customRulesNotificationText = document.getElementById('custom-rules-notification-text');
+            const currentFileFilter = document.getElementById('current-file-filter');
             const reachableFilter = document.getElementById('reachable-filter');
             const autofixableFilter = document.getElementById('autofixable-filter');
             const ignoredFilter = document.getElementById('ignored-filter');
@@ -553,6 +583,7 @@
             const notificationList = document.getElementById('notification-list');
             const notificationCount = document.getElementById('notification-count');
             const toggleNotificationsArrow = document.getElementById('toggle-notifications-arrow');
+            const searchBox = document.getElementById('search-box');
 
 
             // --- RENDER FUNCTIONS ---
@@ -607,6 +638,9 @@
                 if (state.showNewOnly) {
                     findingsToShow = findingsToShow.filter(f => f.isNew);
                 }
+                if (state.filters.currentFile) {
+                    findingsToShow = findingsToShow.filter(f => f.file.startsWith('server/routes.js'));
+                }
                 if (state.filters.reachable) {
                     findingsToShow = findingsToShow.filter(f => f.isReachable);
                 }
@@ -618,6 +652,10 @@
                 }
                 if (state.filters.riskScore) {
                     findingsToShow = findingsToShow.filter(f => f.risk >= state.filters.riskScore);
+                }
+                if (state.filters.searchTerm) {
+                    const term = state.filters.searchTerm.toLowerCase();
+                    findingsToShow = findingsToShow.filter(f => f.title.toLowerCase().includes(term));
                 }
 
                 const renderView = (view, groupedData, createGroupHtml, sortFn) => {
@@ -689,8 +727,14 @@
             };
 
             const updateNotificationCount = () => {
-                const visibleNotifications = notificationList.querySelectorAll('.p-2:not([style*="display: none"])');
-                notificationCount.textContent = visibleNotifications.length;
+                const visibleNotifications = notificationList.querySelectorAll('.notification-item');
+                let count = 0;
+                visibleNotifications.forEach(n => {
+                    if (window.getComputedStyle(n).display !== 'none') {
+                        count++;
+                    }
+                });
+                notificationCount.textContent = count;
             }
 
             const initializeState = () => {
@@ -791,6 +835,7 @@
                     commitHooksToggle.classList.toggle('opacity-40');
                     commitHooksNotification.style.display = state.commitHooks ? 'none' : 'flex';
                     updateNotificationCount();
+                    expandNotifications();
                 });
             }
 
@@ -801,6 +846,7 @@
                     mcpToolsToggle.classList.toggle('opacity-40');
                     mcpServerNotification.style.display = state.mcpTools ? 'flex' : 'none';
                     updateNotificationCount();
+                    expandNotifications();
                 });
             }
 
@@ -819,6 +865,7 @@
                         customRulesNotification.style.display = 'none'; // Hide notification if main toggle is off
                     }
                     updateNotificationCount();
+                    expandNotifications();
                 });
             }
 
@@ -830,6 +877,7 @@
                     customRulesNotificationText.innerHTML = `<span class="font-semibold text-white">Secure At Inception</span> ${text} <a href="#" class="text-indigo-400 font-semibold hover:underline ml-2 text-sm">Learn More →</a>`;
                     customRulesNotification.style.display = 'flex';
                     updateNotificationCount();
+                    expandNotifications();
                 });
             }
 
@@ -840,16 +888,41 @@
                 });
             }
 
-            [reachableFilter, autofixableFilter, ignoredFilter].forEach(filter => {
+            [currentFileFilter, reachableFilter, autofixableFilter, ignoredFilter].forEach(filter => {
                 filter.addEventListener('click', () => {
                     filter.classList.toggle('filter-active');
-                    state.filters[filter.id.split('-')[0]] = filter.classList.contains('filter-active');
+
+                    let filterName = filter.id.split('-')[0];
+                    if (filter.id === 'current-file-filter') {
+                        filterName = 'currentFile'
+                    }
+
+                    state.filters[filterName] = filter.classList.contains('filter-active');
+
+                    if (filter.id === 'current-file-filter' && state.filters.currentFile) {
+                        // Force severity grouping
+                        state.groupBy = 'severity';
+                        groupByToggles.forEach(t => {
+                            t.classList.remove('bg-gray-700', 'text-white', 'font-semibold');
+                            t.classList.add('text-gray-400', 'hover:bg-gray-700/50');
+                        });
+                        severityToggle.classList.add('bg-gray-700', 'text-white', 'font-semibold');
+                        manifestToggle.parentElement.classList.add('opacity-50', 'pointer-events-none', 'has-tooltip');
+                    } else if (filter.id === 'current-file-filter' && !state.filters.currentFile) {
+                        manifestToggle.parentElement.classList.remove('opacity-50', 'pointer-events-none', 'has-tooltip');
+                    }
+
                     renderFindings();
                 });
             });
 
             riskScoreFilter.addEventListener('input', (e) => {
                 state.filters.riskScore = parseInt(e.target.value) || 0;
+                renderFindings();
+            });
+
+            searchBox.addEventListener('input', (e) => {
+                state.filters.searchTerm = e.target.value;
                 renderFindings();
             });
 
@@ -876,6 +949,13 @@
                 });
             });
 
+            const expandNotifications = () => {
+                if (notificationList.classList.contains('hidden')) {
+                    notificationList.classList.remove('hidden');
+                    toggleNotificationsArrow.classList.add('rotate-180');
+                }
+            }
+
             notificationsHeader.addEventListener('click', () => {
                 notificationList.classList.toggle('hidden');
                 toggleNotificationsArrow.classList.toggle('rotate-180');
@@ -891,15 +971,18 @@
                         tooltip.style.visibility = 'visible';
                         tooltip.style.opacity = '1';
 
+                        // Recalculate size after making it visible
                         const tooltipRect = tooltip.getBoundingClientRect();
 
                         let left = parentRect.left + (parentRect.width / 2) - (tooltipRect.width / 2);
+                        let top = parentRect.top - tooltipRect.height - 10;
 
                         if (left < 8) left = 8;
                         if (left + tooltipRect.width > window.innerWidth - 8) left = window.innerWidth - tooltipRect.width - 8;
+                        if (top < 8) top = parentRect.bottom + 8;
 
                         tooltip.style.left = `${left}px`;
-                        tooltip.style.top = `${parentRect.top - tooltipRect.height - 8}px`;
+                        tooltip.style.top = `${top}px`;
                     };
 
                     const hideTooltip = () => {
