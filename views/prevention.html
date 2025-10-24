@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevention Report</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- SortableJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Apply the Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Style for the drag placeholder */
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #dbeafe;
+            /* blue-100 */
+            border: 2px dashed #3b82f6;
+            /* blue-500 */
+            border-radius: 0.5rem;
+            /* rounded-lg */
+        }
+
+        /* Hide Chart.js tooltips for sparklines */
+        .sparkline-chart canvas {
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Header and Filter Bar -->
+    <div class="bg-white border-y border-gray-200">
+        <div class="container mx-auto py-3 px-4">
+
+            <!-- Page Header -->
+            <div class="mb-4 pt-4 md:pt-2">
+                <!-- Breadcrumbs -->
+                <div class="text-sm text-gray-500 mb-2">
+                    <span class="hover:underline cursor-pointer">Demo Enterprise Unlimited</span>
+                    <span class="mx-2">&gt;</span>
+                    <span class="font-medium text-gray-700">Reports</span>
+                </div>
+
+                <!-- Title -->
+                <div class="flex items-center gap-3">
+                    <i data-lucide="bar-chart-3" class="h-8 w-8 text-gray-700"></i>
+                    <h1 class="text-3xl font-bold text-gray-800">Prevention Impact</h1>
+                </div>
+            </div>
+
+            <!-- Filter Controls (with top border) -->
+            <div class="flex flex-wrap items-center gap-3 border-t border-gray-200 pt-3">
+
+                <!-- Filter Divider (REMOVED) -->
+
+                <!-- Organization Filter -->
+                <button
+                    class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-blue-600 hover:bg-gray-50">
+                    <span class="font-bold">Organization:</span>
+                    <span>Demo Enterprise Unlimited</span>
+                    <i data-lucide="chevron-down" class="h-4 w-4 text-gray-400"></i>
+                </button>
+
+                <!-- Add Filter -->
+                <button
+                    class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    <i data-lucide="plus" class="h-4 w-4 text-gray-500"></i>
+                    <span>Add filter</span>
+                    <i data-lucide="chevron-down" class="h-4 w-4 text-gray-400"></i>
+                </button>
+
+                <!-- Reset Filters -->
+                <button
+                    class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md">
+                    <i data-lucide="rotate-ccw" class="h-4 w-4"></i>
+                    <span>Reset filters</span>
+                </button>
+
+                <!-- Spacer -->
+                <div class="flex-grow"></div>
+
+                <!-- Date Range -->
+                <button
+                    class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    <span>Last 30 days</span>
+                    <i data-lucide="chevron-down" class="h-4 w-4 text-gray-400"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Content Area (KPIs + Charts) -->
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Key Performance Indicators (KPIs) -->
+        <div id="kpi-group" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+
+            <!-- KPI Card 1: Prevented Issues -->
+            <div class="bg-white p-5 rounded-lg shadow-md transition-all hover:shadow-lg relative">
+
+                <h3 class="flex items-center gap-2 text-sm font-medium text-gray-500 uppercase">
+                    <i data-lucide="shield-check" class="h-5 w-5 text-gray-400"></i>
+                    Prevented Issues
+                </h3>
+                <div class="mt-2">
+                    <p class="text-6xl font-semibold text-gray-900">2,905</p>
+                    <p class="flex items-center text-sm font-medium text-green-500 mt-1">
+                        <i data-lucide="arrow-up" class="h-4 w-4 mr-1"></i>
+                        +14%
+                    </p>
+                </div>
+                <div class="mt-4 h-12 sparkline-chart">
+                    <canvas id="sparklinePrevented"></canvas>
+                </div>
+            </div>
+
+            <!-- KPI Card 2: IDE, CLI, MCP -->
+            <div class="bg-white p-5 rounded-lg shadow-md transition-all hover:shadow-lg relative">
+                <h3 class="flex items-center gap-2 text-sm font-medium text-gray-500 uppercase">
+                    <i data-lucide="terminal" class="h-5 w-5 text-gray-400"></i>
+                    <span>IDE, CLI, MCP</span>
+                </h3>
+                <div class="mt-2">
+                    <p class="text-3xl font-semibold text-gray-900">2,035</p>
+
+                    <p class="flex items-center text-sm font-medium text-green-500 mt-1">
+                        <i data-lucide="arrow-up" class="h-4 w-4 mr-1"></i>
+                        +21.3%
+                    </p>
+                </div>
+                <div class="mt-4 h-12 sparkline-chart">
+                    <canvas id="sparklineIDE"></canvas>
+                </div>
+            </div>
+
+            <!-- KPI Card 3: PR Checks -->
+            <div class="bg-white p-5 rounded-lg shadow-md transition-all hover:shadow-lg relative">
+                <h3 class="flex items-center gap-2 text-sm font-medium text-gray-500 uppercase">
+                    <i data-lucide="git-pull-request-arrow" class="h-5 w-5 text-gray-400"></i>
+                    <span>PR Checks</span>
+                </h3>
+                <div class="mt-2">
+                    <p class="text-3xl font-semibold text-gray-900">468</p>
+
+                    <p class="flex items-center text-sm font-medium text-green-500 mt-1">
+                        <i data-lucide="arrow-up" class="h-4 w-4 mr-1"></i>
+                        +468%
+                    </p>
+                </div>
+                <div class="mt-4 h-12 sparkline-chart">
+                    <canvas id="sparklinePR"></canvas>
+                </div>
+            </div>
+
+            <!-- KPI Card 4: CI/CD -->
+            <div class="bg-white p-5 rounded-lg shadow-md transition-all hover:shadow-lg relative">
+                <h3 class="flex items-center gap-2 text-sm font-medium text-gray-500 uppercase">
+                    <i data-lucide="layers" class="h-5 w-5 text-gray-400"></i>
+                    <span>CI/CD</span>
+                </h3>
+                <div class="mt-2">
+                    <p class="text-3xl font-semibold text-gray-900">402</p>
+
+                    <p class="flex items-center text-sm font-medium text-red-500 mt-1">
+                        <i data-lucide="arrow-down" class="h-4 w-4 mr-1"></i>
+                        -56.8%
+                    </p>
+                </div>
+                <div class="mt-4 h-12 sparkline-chart">
+                    <canvas id="sparklineCICD"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row of Info Tiles -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+            <!-- Info Card 1: Code / Open Source / Secrets -->
+            <div class="bg-white p-5 rounded-lg shadow-md h-full">
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Code</span>
+                        <span class="font-medium text-gray-900">2,145</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Open Source</span>
+                        <span class="font-medium text-gray-900">756</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Secrets</span>
+                        <span class="font-medium text-gray-900">4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card 2: IDE/CLI/MCP -->
+            <div class="bg-white p-5 rounded-lg shadow-md h-full flex flex-col justify-between">
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">IDE</span>
+                        <span class="font-medium text-gray-900">12</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">CLI</span>
+                        <span class="font-medium text-gray-900">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">MCP</span>
+                        <span class="font-medium text-gray-900">6</span>
+                    </div>
+                </div>
+                <a href="#" class="flex items-center text-sm text-blue-600 hover:underline">
+                    See IDE/CLI usage
+                    <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Info Card 3: PR Checks -->
+            <div class="bg-white p-5 rounded-lg shadow-md h-full flex flex-col justify-between">
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Repositories</span>
+                        <span class="font-medium text-gray-900">14</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Pull Requests</span>
+                        <span class="font-medium text-gray-900">117</span>
+                    </div>
+                </div>
+                <a href="#" class="flex items-center text-sm text-blue-600 hover:underline mt-4">
+                    See PR Checks usage
+                    <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Info Card 4: CI/CD -->
+            <div class="bg-white p-5 rounded-lg shadow-md h-full flex flex-col justify-between">
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Repositories</span>
+                        <span class="font-medium text-gray-900">14</span>
+                    </div>
+                </div>
+                <a href="#" class="flex items-center text-sm text-blue-600 hover:underline mt-4">
+                    See CI/CD test usage
+                    <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Chart Grid -->
+        <div id="chart-group" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- Chart Card 1: Line Chart -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Issues Prevented Over Time</h3>
+                    <button class="drag-handle-chart text-gray-400 hover:text-gray-700 cursor-grab p-1 rounded-md">
+                        <i data-lucide="grip-vertical" class="h-5 w-5"></i>
+                    </button>
+                </div>
+                <div class="h-80">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart Card 2: Donut Chart -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Issues Prevented By Product</h3>
+                    <button class="drag-handle-chart text-gray-400 hover:text-gray-700 cursor-grab p-1 rounded-md">
+                        <i data-lucide="grip-vertical" class="h-5 w-5"></i>
+                    </button>
+                </div>
+                <div class="h-80">
+                    <canvas id="donutChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Table 1: Prevention by Organizations -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Prevention by Organizations</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Organization</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Issues Prevented</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Prevention Rate</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Mean Time to Fix</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Average Risk Score</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Efficiency Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Payments API
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">450</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">95%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.2 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">920</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Excellent</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mobile Core
+                                    (iOS)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">380</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">92%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.5 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">910</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Excellent</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Web Frontend
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">310</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">88%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">2.1 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">880</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Good</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Data Science
+                                    Pipeline</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">270</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">85%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">2.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">895</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Good</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mobile Core
+                                    (Android)</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">250</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">89%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.9 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">905</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Good</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Internal Tools
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">190</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">75%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">3.5 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">840</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Good</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Search &
+                                    Discovery</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">150</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">70%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">4.1 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">810</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Needs
+                                        Work</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Marketing
+                                    Sites</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">90</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">65%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">3.8 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">820</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Needs
+                                        Work</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Legacy Auth
+                                    Service</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">50</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">30%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">7.5 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">950</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Needs
+                                        Work</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ETL Batch Jobs
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">30</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">25%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">8.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">940</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Needs
+                                        Work</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table 2: Prevention by Repository -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Prevention by Repository</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Repository</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Issues Prevented</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Prevention Rate</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Mean Time to Fix</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Average Risk Score</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Organization Name</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>acme-corp/payments</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">320</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">96%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.1 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">925</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Payments API
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>demo-unlimited/mobile-ios</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">305</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">94%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.4 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">912</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Mobile Core (iOS)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>demo-unlimited/web-frontend</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">290</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">90%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">2.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">885</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Web Frontend
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>datasci/prediction-model</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">240</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">88%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">2.2 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">900</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Data Science Pipeline
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>demo-unlimited/mobile-android</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">210</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">91%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.8 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">908</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Mobile Core (Android)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>internal/admin-dashboard</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">160</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">78%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">3.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">845</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Internal Tools
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>snyk/search-service</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">130</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">72%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">4.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">815</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Search & Discovery
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>acme-corp/marketing-cms</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">70</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">68%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">3.9 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">822</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Marketing Sites
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>legacy/auth-monolith</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">45</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">35%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">7.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">955</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    Legacy Auth Service
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>ops/etl-scripts</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">25</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">30%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">8.2 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">948</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    ETL Batch Jobs
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table 3: Prevention by CWE -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Prevented Issues by CWE</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    CWE</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Issues Prevented</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Prevention Rate</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Mean Time to Fix</th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Average Risk Score</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>Cross-site Scripting (CWE-79)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">512</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">98%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">960</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>SQL Injection (CWE-89)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">430</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">99%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">0.8 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">950</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>Improper Input Validation (CWE-20)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">310</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">85%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">2.5 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">900</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>Path Traversal (CWE-22)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">205</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">90%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">2.1 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">880</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>OS Command Injection (CWE-78)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">180</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">92%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">1.9 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">930</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>Missing Auth for Critical Function (CWE-306)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">95</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">70%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">3.0 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">850</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <a href="#" class="inline-flex items-center text-blue-600 hover:underline">
+                                        <span>Use of Hard-coded Credentials (CWE-798)</span>
+                                        <i data-lucide="external-link" class="h-4 w-4 ml-1"></i>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">40</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">95%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">0.5 days</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">800</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        window.onload = function () {
+            // Render Lucide Icons
+            lucide.createIcons();
+
+            // Chart.js initialization
+            // Common options for responsiveness
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: 'Inter'
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: { family: 'Inter' }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: { family: 'Inter' }
+                        },
+                        grid: {
+                            color: '#e5e7eb' // light gray grid lines
+                        }
+                    }
+                }
+            };
+
+            // Sparkline options (no axes, no legend, simple line)
+            const sparklineOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false } // Disable tooltips for sparklines
+                },
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        display: false
+                    }
+                },
+                elements: {
+                    point: { radius: 0 } // No points on the line
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                }
+            };
+
+            // Sparkline Data Generation Helper
+            function generateSparklineData(base, length, volatility, trendMultiplier = 1) {
+                let data = [];
+                let current = base;
+                for (let i = 0; i < length; i++) {
+                    data.push(Math.round(current));
+                    // Add some random volatility
+                    let change = (Math.random() - 0.5) * volatility;
+                    // Apply trend based on trendMultiplier
+                    current += change + (trendMultiplier * (volatility / 5)); // Smaller trend influence
+                    if (current < 0) current = 0; // Prevent negative values
+                }
+                return data;
+            }
+
+            // Sparkline for Prevented Issues (+14%)
+            new Chart(document.getElementById('sparklinePrevented').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: Array(10).fill(''), // Empty labels for sparkline
+                    datasets: [{
+                        data: generateSparklineData(2500, 10, 100, 1.2), // Positive trend
+                        borderColor: 'rgb(34, 197, 94)', // Green
+                        borderWidth: 1.5,
+                        fill: false,
+                        tension: 0.3
+                    }]
+                },
+                options: sparklineOptions
+            });
+
+            // Sparkline for IDE, CLI, MCP (+21.3%)
+            new Chart(document.getElementById('sparklineIDE').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: Array(10).fill(''),
+                    datasets: [{
+                        data: generateSparklineData(1500, 10, 80, 1), // Strong positive trend
+                        borderColor: 'rgb(34, 197, 94)', // Green
+                        borderWidth: 1.5,
+                        fill: false,
+                        tension: 0.3
+                    }]
+                },
+                options: sparklineOptions
+            });
+
+            // Sparkline for PR Checks (+468%) - show strong growth from low base
+            new Chart(document.getElementById('sparklinePR').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: Array(10).fill(''),
+                    datasets: [{
+                        data: generateSparklineData(50, 10, 50, 2), // Very strong positive trend
+                        borderColor: 'rgb(34, 197, 94)', // Green
+                        borderWidth: 1.5,
+                        fill: false,
+                        tension: 0.3
+                    }]
+                },
+                options: sparklineOptions
+            });
+
+            // Sparkline for CI/CD (-56.8%)
+            new Chart(document.getElementById('sparklineCICD').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: Array(10).fill(''),
+                    datasets: [{
+                        data: generateSparklineData(1000, 10, 70, -1.5), // Strong negative trend
+                        borderColor: 'rgb(239, 68, 68)', // Red
+                        borderWidth: 1.5,
+                        fill: false,
+                        tension: 0.3
+                    }]
+                },
+                options: sparklineOptions
+            });
+
+
+            // 1. Line Chart - Issues Prevented Over Time
+            const ctxLine = document.getElementById('lineChart').getContext('2d');
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'IDE, CLI, MCP',
+                        data: [1200, 1350, 1500, 1600, 1750, 1900, 2035],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)', // teal
+                        tension: 0.1
+                    }, {
+                        label: 'PR Checks',
+                        data: [0, 50, 120, 200, 310, 400, 468],
+                        fill: false,
+                        borderColor: 'rgb(153, 102, 255)', // purple
+                        tension: 0.1
+                    }, {
+                        label: 'CI/CD',
+                        data: [850, 820, 700, 650, 500, 450, 402],
+                        fill: false,
+                        borderColor: 'rgb(255, 159, 64)', // orange
+                        tension: 0.1
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // 2. Line Chart - Issues Prevented By Product (was Donut)
+            const ctxDonut = document.getElementById('donutChart').getContext('2d');
+            new Chart(ctxDonut, {
+                type: 'line', // Changed from doughnut
+                data: {
+                    labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Code',
+                        data: [1500, 1600, 1700, 1850, 1950, 2050, 2145],
+                        fill: false,
+                        borderColor: 'rgb(59, 130, 246)', // blue-500
+                        tension: 0.1
+                    }, {
+                        label: 'Open Source',
+                        data: [500, 550, 600, 620, 680, 720, 756],
+                        fill: false,
+                        borderColor: 'rgb(34, 197, 94)', // green-500
+                        tension: 0.1
+                    }, {
+                        label: 'Secrets',
+                        data: [0, 1, 1, 2, 3, 3, 4],
+                        fill: false,
+                        borderColor: 'rgb(234, 179, 8)', // yellow-500
+                        tension: 0.1
+                    }]
+                },
+                options: chartOptions // Use the standard line chart options
+            });
+
+            // 3. Stacked Bar Chart (REMOVED)
+
+            // 4. Horizontal Bar Chart (REMOVED)
+
+            // --- Initialize SortableJS ---
+
+            // Chart Group
+            const chartGroup = document.getElementById('chart-group');
+            if (chartGroup) {
+                new Sortable(chartGroup, {
+                    group: 'charts', // Different group name to prevent mixing
+                    handle: '.drag-handle-chart', // CSS selector for drag handle
+                    animation: 150, // Animation ms
+                    ghostClass: 'sortable-ghost' // Class for the drop placeholder
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>
